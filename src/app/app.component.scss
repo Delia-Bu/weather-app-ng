@@ -1,0 +1,25 @@
+.main {
+  background-image: url("../assets/dark-cold.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  color: white;
+
+  .search-wrapper {
+    .input-field {
+      padding: 10px;
+    }
+    .input-wrapper {
+      position: relative;
+
+      // dropdown
+      .cities {
+        position: absolute;
+        background-color: grey;
+        border: 1px solid yellow;
+        width: 100%;
+        z-index: 10;
+      }
+    }
+  }
+}
