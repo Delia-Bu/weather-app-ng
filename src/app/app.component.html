@@ -15,7 +15,7 @@
           class="city"
           (click)="onCityClick(city)"
         >
-          {{ city.name }}
+          {{ city.name + ", " + city.country }}
         </div>
       </div>
     </div>
@@ -23,10 +23,17 @@
 
   <section *ngIf="currentCity" class="current-city-weather">
     <div *ngIf="currentCityWeather">
-      <h3>{{ currentCityWeather.current_weather.temperature }}</h3>
-      <p>{{ currentCityWeather.current_weather.time }}</p>
-      <h1>{{ currentCity.name }}</h1>
-      <p>{{ currentCityWeather.daily_units.precipitation_probability_max }}</p>
+      <h1>{{ currentCity.name + ", " + currentCity.country }}</h1>
+      <!-- <p>{{ currentCityWeather.current_weather.time }}</p> -->
+      <p>{{ currentDate }}</p>
+      <h2>{{ currentCityWeather.current_weather.temperature + " °C" }}</h2>
+      <p>
+        {{
+          weatherInterpretationCodes[
+            currentCityWeather.current_weather.weathercode
+          ]
+        }}
+      </p>
     </div>
   </section>
 </main>
