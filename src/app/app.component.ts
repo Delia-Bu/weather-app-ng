@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { WeatherService } from './services/weather.service';
 import { Forecast } from './models/interfaces/forecast.interface';
 import { City } from './models/interfaces/city.interface';
+import { GeoLocationService } from './services/geo-location.service';
 
 @Component({
   selector: 'app-root',
@@ -45,15 +46,20 @@ export class AppComponent {
   };
   public currentDate: string | null = null;
 
-  constructor(private weatherService: WeatherService) {}
+  constructor(
+    private weatherService: WeatherService,
+    private geoLocationService: GeoLocationService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getCurrentLocationDetails();
+  }
 
   public onSearchChange(): void {
     this.showCitites = false;
     if (this.searchInput.length < 3) {
       this.citiesList = [];
-      console.log('input <3');
+      // console.log('input <3');
     }
     if (this.searchInput.length >= 3) {
       this.weatherService.searchCity(this.searchInput).subscribe(
@@ -77,7 +83,7 @@ export class AppComponent {
       this.searchInput = '';
       this.citiesList = [];
       this.currentCity = city;
-      let newDate = new Date(this.currentCityWeather.current_weather.time);
+      const newDate = new Date(this.currentCityWeather.current_weather.time);
       this.currentDate = newDate.toDateString();
     });
   }
@@ -86,5 +92,31 @@ export class AppComponent {
     setTimeout(() => {
       this.showCitites = false;
     }, 300);
+  }
+
+  //
+  private getCurrentLocationDetails(): void {
+    navigator.geolocation.getCurrentPosition((response) => {
+      console.log(response);
+      this.geoLocationService
+        .getCityByCoordinates(
+          response.coords.latitude,
+          response.coords.longitude
+        )
+        .subscribe((res: any) => {
+          this.currentCity = {
+            name: res.address.town,
+            country: res.address.country,
+            timezone: 'auto',
+            latitude: response.coords.latitude,
+            longitude: response.coords.longitude,
+          };
+          this.weatherService
+            .getCityWeather(this.currentCity)
+            .subscribe((cityWeather) => {
+              this.currentCityWeather = cityWeather;
+            });
+        });
+    });
   }
 }

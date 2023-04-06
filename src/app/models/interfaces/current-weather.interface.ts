@@ -3,5 +3,6 @@ export interface CurrentWeather {
   windspeed: number;
   time: string;
   weathercode: number;
+  weathercode_string: string;
   //   winddirection: number;
 }

@@ -22,7 +22,7 @@
   </section>
 
   <section *ngIf="currentCity" class="current-city-weather">
-    <div *ngIf="currentCityWeather">
+    <div *ngIf="currentCityWeather" class="current-weather">
       <h1>{{ currentCity.name + ", " + currentCity.country }}</h1>
       <!-- <p>{{ currentCityWeather.current_weather.time }}</p> -->
       <p>{{ currentDate }}</p>
