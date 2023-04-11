@@ -73,7 +73,13 @@
   </section>
 
   <section class="favourites">
-    <h3>Favourite cities</h3>
+    <h3
+      [ngStyle]="{
+        visibility: this.favouriteCities.length > 0 ? 'visible' : 'hidden'
+      }"
+    >
+      Favourite cities
+    </h3>
     <div
       class="new-favourite-wrapper"
       *ngFor="let fav of favouriteCities"
