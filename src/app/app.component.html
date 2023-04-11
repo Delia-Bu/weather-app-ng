@@ -23,8 +23,13 @@
 
   <section *ngIf="currentCity" class="current-city-weather">
     <div *ngIf="currentCityWeather" class="current-weather">
-      <h1>{{ currentCity.name + ", " + currentCity.country }}</h1>
-      <!-- <p>{{ currentCityWeather.current_weather.time }}</p> -->
+      <h1>
+        {{ currentCity.name + ", " + currentCity.country }}
+        <button (click)="addToFavourites(currentCity, currentCityWeather)">
+          Add
+        </button>
+      </h1>
+      <img src="{{ currentIconImgPath }}" />
       <p>{{ currentDate }}</p>
       <h2>{{ currentCityWeather.current_weather.temperature + " °C" }}</h2>
       <p>
@@ -36,21 +41,36 @@
       </p>
     </div>
   </section>
+
+  <section class="week-forecast">
+    <div class="day-forecast" *ngFor="let day of weekForecastArray">
+      <p class="day-name">
+        {{ day.dayName }}
+        <span class="icon"
+          ><img src="{{ formatIcon(day.weathercodeDay) }}"
+        /></span>
+      </p>
+      <p>Min: {{ day.tempMin }}°C</p>
+      <p>Max: {{ day.tempMax }}°C</p>
+      <p>
+        <img
+          class="icon-forecast"
+          src="../assets/drop.png"
+          alt="minimum-temp"
+        />
+        Precipitation: {{ day.precip }} %
+      </p>
+    </div>
+  </section>
+  <section class="favourites">
+    <h3>Favourite cities</h3>
+    <div class="new-favourite" *ngFor="let fav of favouriteCities">
+      <p>{{ fav.city }},</p>
+      <p>{{ fav.country }}</p>
+      <p><img id="icon-fav" src="{{ formatIcon(fav.weathercode) }}" /></p>
+      <p>{{ fav.temp }}°C</p>
+      <p>{{ weatherInterpretationCodes[fav.weathercode] }}</p>
+      <button (click)="removeFavourite(fav)">X</button>
+    </div>
+  </section>
 </main>
-
-<!--         
-
-          input field
-
-            City name
-            Temperature - current
-            Precipitation 
-
-
-        
-          Recent search --- favourites
-
-
-          7 day forecast (tabs)
-
--->

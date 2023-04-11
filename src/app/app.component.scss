@@ -1,10 +1,10 @@
 :root {
   --light-color: #c4c4e3;
+  --dark-color: #243748;
 }
 
 .main {
   background-image: url("../assets/dark-cold.jpg");
-  background-repeat: no-repeat;
   background-size: cover;
   color: white;
   height: 100%;
@@ -14,8 +14,8 @@
   text-align: center;
 
   .search-wrapper {
-    padding: 1em;
-    width: 100%;
+    padding: 1em 0;
+    width: 80%;
     align-content: center;
     align-items: center;
 
@@ -25,8 +25,8 @@
       .input-field {
         border: none;
         padding: 15px 20px;
-        width: 80%;
-        max-width: 800px;
+        width: 100%;
+
         border-radius: 8px;
         font-size: 20px;
         text-align: center;
@@ -74,26 +74,43 @@
     border-radius: 8px;
     width: 80%;
     user-select: none;
+    margin-bottom: 1em;
 
     .current-weather {
       display: grid;
       grid-template-columns: 40% 60%;
       grid-template-rows: 1fr;
-      grid-template-areas: "a c" "a b" "a d";
+      grid-template-areas: "a c" "a b" "i d";
       gap: 10px;
       justify-content: center;
       align-items: center;
 
       @media screen and (max-width: 720px) {
-        grid-template-areas: "a" "b" "c" "d";
+        grid-template-areas: "a" "i" "b" "c" "d";
         grid-template-columns: 1fr;
         grid-template-rows: auto;
+      }
+      img {
+        width: 4rem;
+        grid-area: i;
+        margin: auto;
       }
 
       h1 {
         font-size: 1.5rem;
         padding: 0.5em;
         grid-area: b;
+
+        button {
+          padding: 4px;
+          border: 1px solid white;
+          margin: 2px;
+          border-radius: 8px;
+        }
+
+        :hover {
+          background-color: #dadaef;
+        }
       }
       h2 {
         font-size: 4rem;
@@ -109,6 +126,73 @@
         font-size: 1em;
         grid-area: d;
         padding: 4px;
+      }
+    }
+  }
+
+  .week-forecast {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 80%;
+    justify-content: center;
+    border-radius: 8px;
+
+    .day-forecast {
+      padding: 20px;
+
+      .icon-forecast {
+        width: 15px;
+      }
+
+      .day-name {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+        text-align: center;
+
+        .icon {
+          img {
+            width: 2rem;
+            padding: 0 4px;
+          }
+        }
+      }
+    }
+  }
+
+  .favourites {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: 8px;
+    width: 80%;
+    user-select: none;
+    margin-top: 1em;
+    padding: 1rem;
+
+    h3 {
+      margin: auto;
+      padding: 0.5rem;
+    }
+
+    .new-favourite {
+      display: flex;
+
+      p {
+        padding: 1rem;
+
+        #icon-fav {
+          width: 2rem;
+          padding: 0;
+        }
+      }
+
+      button {
+        width: 20px;
+        border-radius: 8px;
       }
     }
   }

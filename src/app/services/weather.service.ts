@@ -29,7 +29,8 @@ export class WeatherService {
         current_weather: true,
         forecast_days: 7,
         daily:
-          'temperature_2m_max,temperature_2m_min,precipitation_probability_max',
+          'temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode',
+        hourly: 'temperature_2m',
         //
         latitude: city.latitude,
         longitude: city.longitude,
