@@ -4,7 +4,7 @@
 }
 
 .main {
-  background-image: url("../assets/dark-cold.jpg");
+  background-image: url("../assets/bg-final.jpg");
   background-size: cover;
   color: white;
   height: 100%;
@@ -12,6 +12,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  overflow-y: scroll;
 
   .search-wrapper {
     padding: 1em 0;
@@ -46,7 +47,7 @@
         left: 0;
         right: 0;
         margin: auto;
-        margin: 1em;
+        margin-top: 2px;
         background-color: #fff;
         color: #243748;
         border-radius: 8px;
@@ -58,11 +59,15 @@
         transition: 0.3s;
         z-index: 10;
 
-        :hover {
-          width: auto;
-          background-color: #dadaef;
-          padding: 3px;
-          border-radius: 8px;
+        .city {
+          padding: 10px 0;
+
+          &:hover {
+            width: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 8px;
+          }
         }
       }
     }
@@ -75,6 +80,7 @@
     width: 80%;
     user-select: none;
     margin-bottom: 1em;
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
 
     .current-weather {
       display: grid;
@@ -100,16 +106,26 @@
         font-size: 1.5rem;
         padding: 0.5em;
         grid-area: b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         button {
-          padding: 4px;
+          color: white;
+          padding: 8px;
           border: 1px solid white;
-          margin: 2px;
+          margin: 10px;
           border-radius: 8px;
-        }
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+            rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+          background-color: #eec0c6;
+          background-image: linear-gradient(315deg, #eec0c6 0%, #e58c8a 74%);
 
-        :hover {
-          background-color: #dadaef;
+          &:hover {
+            background-color: #9fa4c4;
+            background-image: linear-gradient(315deg, #9fa4c4 0%, #9e768f 74%);
+            cursor: pointer;
+          }
         }
       }
       h2 {
@@ -134,16 +150,20 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    background-color: rgba(0, 0, 0, 0.5);
     width: 80%;
     justify-content: center;
     border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
 
     .day-forecast {
-      padding: 20px;
+      padding: 1rem 1.5rem;
 
       .icon-forecast {
         width: 15px;
+      }
+      p {
+        padding: 2px;
       }
 
       .day-name {
@@ -153,17 +173,14 @@
         text-align: center;
 
         .icon {
-          img {
-            width: 2rem;
-            padding: 0 4px;
-          }
+          width: 2rem;
+          padding: 0 4px;
         }
       }
     }
   }
 
   .favourites {
-    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -171,19 +188,44 @@
     width: 80%;
     user-select: none;
     margin-top: 1em;
-    padding: 1rem;
+
+    margin-bottom: 40px;
 
     h3 {
       margin: auto;
       padding: 0.5rem;
+      width: 100%;
+      margin-bottom: 0.5rem;
     }
-
-    .new-favourite {
+    .new-favourite-wrapper {
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.5);
       display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+      margin-top: 7px;
+      border-radius: 8px;
 
-      p {
-        padding: 1rem;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 1) 0px 5px 15px;
+      }
 
+      .new-favourite {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        p {
+          padding: 0.5rem;
+
+          #icon-fav {
+            width: 2rem;
+            padding: 0;
+          }
+        }
         #icon-fav {
           width: 2rem;
           padding: 0;
@@ -191,8 +233,23 @@
       }
 
       button {
-        width: 20px;
+        color: white;
+        max-height: 40px;
+        padding: 10px;
         border-radius: 8px;
+        border: 1px solid white;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+          rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+        background-color: #eec0c6;
+        background-image: linear-gradient(315deg, #eec0c6 0%, #e58c8a 74%);
+
+        &:hover {
+          cursor: pointer;
+          background-color: #9fa4c4;
+          background-image: linear-gradient(315deg, #9fa4c4 0%, #9e768f 74%);
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+            rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+        }
       }
     }
   }

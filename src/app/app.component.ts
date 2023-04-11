@@ -5,7 +5,6 @@ import { City } from './models/interfaces/city.interface';
 import { GeoLocationService } from './services/geo-location.service';
 import { DatePipe } from '@angular/common';
 import { WeekDay } from './models/interfaces/weekDay.interface';
-import { Favourite } from './models/interfaces/favourite.interface';
 
 @Component({
   selector: 'app-root',
@@ -79,7 +78,7 @@ export class AppComponent {
   public currentIconImgPath: string = '';
   public currentDate: string | null = null;
   public weekForecastArray: any[] = [];
-  public favouriteCities: Favourite[] = [];
+  public favouriteCities: City[] = [];
 
   constructor(
     private weatherService: WeatherService,
@@ -89,6 +88,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.getCurrentLocationDetails();
+    this.loadLocalStorage();
   }
 
   public onSearchChange(): void {
@@ -112,7 +112,7 @@ export class AppComponent {
   }
 
   public onCityClick(city: City): void {
-    console.log(city);
+    // console.log(city);
     this.weekForecastArray = []; //reset the weekly forecast
     this.weatherService.getCityWeather(city).subscribe((cityWeather) => {
       this.currentCityWeather = cityWeather;
@@ -123,6 +123,9 @@ export class AppComponent {
       this.citiesList = [];
       this.currentCity = city;
       this.mapWeekForecast();
+
+      console.log(this.currentCity.id);
+      console.log(this.currentCity);
     });
   }
 
@@ -135,7 +138,7 @@ export class AppComponent {
   //
   private getCurrentLocationDetails(): void {
     navigator.geolocation.getCurrentPosition((response) => {
-      console.log(response);
+      // console.log(response);
       this.geoLocationService
         .getCityByCoordinates(
           response.coords.latitude,
@@ -143,11 +146,13 @@ export class AppComponent {
         )
         .subscribe((res: any) => {
           this.currentCity = {
+            id: res.place_id,
             name: res.address.town,
             country: res.address.country,
             timezone: 'auto',
             latitude: response.coords.latitude,
             longitude: response.coords.longitude,
+            weathercode: -1,
           };
           this.weatherService
             .getCityWeather(this.currentCity)
@@ -194,19 +199,49 @@ export class AppComponent {
   }
 
   public addToFavourites(city: City, cityWeather: Forecast) {
-    const newFavourite: Favourite = {
-      city: city.name,
-      country: city.country,
-      temp: cityWeather.current_weather.temperature,
-      weathercode: cityWeather.current_weather.weathercode,
-      tempMax: cityWeather.daily.temperature_2m_max,
-      tempMin: cityWeather.daily.temperature_2m_min,
-      precip: cityWeather.daily.precipitation_probability_max,
-    };
-    if (!this.favouriteCities.includes(newFavourite, 0)) {
+    if (
+      !this.favouriteCities.find(
+        (favouriteCity) => favouriteCity.name === city.name
+      )
+    ) {
+      const newFavourite: City = {
+        id: city.id,
+        name: city.name,
+        country: city.country,
+        latitude: city.latitude,
+        longitude: city.longitude,
+        timezone: city.timezone,
+        temp: cityWeather.current_weather.temperature,
+        weathercode: cityWeather.current_weather.weathercode,
+        tempMax: cityWeather.daily.temperature_2m_max,
+        tempMin: cityWeather.daily.temperature_2m_min,
+        precip: cityWeather.daily.precipitation_probability_max,
+      };
       this.favouriteCities.push(newFavourite);
-    }
+      this.saveToLocalStorage();
+    } else alert('City already added to favourites.');
   }
 
-  public removeFavourite(favouriteCity: Favourite): void {}
+  public removeFavourite(favouriteCity: City): void {
+    const cityIndex = this.favouriteCities.findIndex(
+      (city) => city.name === favouriteCity.name
+    );
+    // console.log(cityIndex);
+    this.favouriteCities.splice(cityIndex, 1);
+    this.saveToLocalStorage();
+  }
+
+  private saveToLocalStorage(): void {
+    localStorage.setItem(
+      'favouriteCities',
+      JSON.stringify(this.favouriteCities)
+    );
+  }
+
+  private loadLocalStorage(): void {
+    const favouriteCitiesStorage = localStorage.getItem('favouriteCities');
+    if (favouriteCitiesStorage) {
+      this.favouriteCities = JSON.parse(favouriteCitiesStorage);
+    }
+  }
 }

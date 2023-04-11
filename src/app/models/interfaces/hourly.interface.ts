@@ -1,4 +1,4 @@
 export interface Hourly {
-  temperature_2m: number;
+  temperature_2m: number[];
   time: string[];
 }

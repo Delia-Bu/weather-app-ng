@@ -26,7 +26,7 @@
       <h1>
         {{ currentCity.name + ", " + currentCity.country }}
         <button (click)="addToFavourites(currentCity, currentCityWeather)">
-          Add
+          Add Favourite
         </button>
       </h1>
       <img src="{{ currentIconImgPath }}" />
@@ -42,13 +42,22 @@
     </div>
   </section>
 
+  <!-- <div class="chart" >
+    <canvas
+      baseChart
+      [datasets]="labelMFL"
+      [labels]="lineChartLabels"
+      [options]="lineChartOptions"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)"
+    ></canvas>
+  </div> -->
+
   <section class="week-forecast">
     <div class="day-forecast" *ngFor="let day of weekForecastArray">
       <p class="day-name">
         {{ day.dayName }}
-        <span class="icon"
-          ><img src="{{ formatIcon(day.weathercodeDay) }}"
-        /></span>
+        <img class="icon" src="{{ formatIcon(day.weathercodeDay) }}" />
       </p>
       <p>Min: {{ day.tempMin }}°C</p>
       <p>Max: {{ day.tempMax }}°C</p>
@@ -62,15 +71,23 @@
       </p>
     </div>
   </section>
+
   <section class="favourites">
     <h3>Favourite cities</h3>
-    <div class="new-favourite" *ngFor="let fav of favouriteCities">
-      <p>{{ fav.city }},</p>
-      <p>{{ fav.country }}</p>
-      <p><img id="icon-fav" src="{{ formatIcon(fav.weathercode) }}" /></p>
-      <p>{{ fav.temp }}°C</p>
-      <p>{{ weatherInterpretationCodes[fav.weathercode] }}</p>
-      <button (click)="removeFavourite(fav)">X</button>
+    <div
+      class="new-favourite-wrapper"
+      *ngFor="let fav of favouriteCities"
+      (click)="onCityClick(fav)"
+    >
+      <div class="new-favourite">
+        <p>{{ fav.name }},</p>
+        <p>{{ fav.country }}</p>
+        <img id="icon-fav" src="{{ formatIcon(fav.weathercode) }}" />
+        <p>{{ fav.temp }}°C</p>
+        <p>{{ weatherInterpretationCodes[fav.weathercode] }}</p>
+      </div>
+
+      <button (click)="removeFavourite(fav)">Remove</button>
     </div>
   </section>
 </main>
