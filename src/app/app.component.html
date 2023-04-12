@@ -4,11 +4,17 @@
       <input
         class="input-field"
         placeholder="Enter city name..."
-        (click)="showCitites = true"
+        (click)="showSearch()"
         (blur)="hideCititesList()"
         [(ngModel)]="searchInput"
         (ngModelChange)="onSearchChange()"
       />
+      <p
+        id="search-error"
+        *ngIf="searchInput.length !== 0 && searchInput.length < 3"
+      >
+        Minimum 3 characters required.
+      </p>
       <div *ngIf="showCitites" class="cities">
         <div
           *ngFor="let city of citiesList"
@@ -42,17 +48,6 @@
     </div>
   </section>
 
-  <!-- <div class="chart" >
-    <canvas
-      baseChart
-      [datasets]="labelMFL"
-      [labels]="lineChartLabels"
-      [options]="lineChartOptions"
-      (chartHover)="chartHovered($event)"
-      (chartClick)="chartClicked($event)"
-    ></canvas>
-  </div> -->
-
   <section class="week-forecast">
     <div class="day-forecast" *ngFor="let day of weekForecastArray">
       <p class="day-name">
@@ -72,14 +67,8 @@
     </div>
   </section>
 
-  <section class="favourites">
-    <h3
-      [ngStyle]="{
-        visibility: this.favouriteCities.length > 0 ? 'visible' : 'hidden'
-      }"
-    >
-      Favourite cities
-    </h3>
+  <section *ngIf="this.favouriteCities.length > 0" class="favourites">
+    <h3>Favourite cities</h3>
     <div
       class="new-favourite-wrapper"
       *ngFor="let fav of favouriteCities"
